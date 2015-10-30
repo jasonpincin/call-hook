@@ -1,6 +1,6 @@
 {
   "name": "call-hook",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Hook function calls with other functions",
   "main": "index.js",
   "repository": {
@@ -8,13 +8,13 @@
     "url": "git://github.com/jasonpincin/call-hook.git"
   },
   "keywords": [
-      "pre",
-      "post",
-      "function",
-      "call",
-      "hook",
-      "prehook",
-      "posthook"
+    "pre",
+    "post",
+    "function",
+    "call",
+    "hook",
+    "prehook",
+    "posthook"
   ],
   "license": "MIT",
   "bugs": {
@@ -26,8 +26,7 @@
     "email": "jason@pincin.com",
     "url": "http://jason.pincin.com/"
   },
-  "contributors": [
-  ],
+  "contributors": [],
   "devDependencies": {
     "@jasonpincin/standard": "~5.0.0-8",
     "faucet": "0.0.1",
