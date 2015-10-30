@@ -1,6 +1,6 @@
 {
   "name": "call-hook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hook function calls with other functions",
   "main": "index.js",
   "repository": {
