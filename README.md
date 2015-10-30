@@ -7,8 +7,8 @@
 Hook function calls with other functions. 
 
 Prehooks execute before the callee (aka target) function executes and may 
-alter the arguments sent to the callee function. Posthooks execute after the 
-callee function, receive the same arguments as the callee function, and may 
+alter the arguments sent to the callee. Posthooks execute after the 
+callee function, receive the same arguments as the callee, and may 
 also access it's return value.
 
 ## example
