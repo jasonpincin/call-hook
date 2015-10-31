@@ -7,9 +7,9 @@
 Hook function calls with other functions. 
 
 Prehooks execute before the callee (aka target) function executes and may 
-alter the arguments sent to the callee. Posthooks execute after the 
-callee function, receive the same arguments as the callee, and may 
-also access it's return value.
+alter the arguments sent to the callee or abort callee execution, while 
+posthooks execute after the callee function, receive the same arguments 
+as the callee, and may also access it's return value.
 
 ## example
 
@@ -55,8 +55,12 @@ Returns a new function, `hookedFunc`, which executes the `preCall` function
 prior to executing the `callee` function. If `preCall` returns an `Array`, then 
 that array will be applied to `callee` as arguments, otherwise both `preCall` 
 and `callee` functions will receive the arguments of the `hookedFunc` function 
-call. Both functions are executed in an `undefined` context. The return value of 
-the `hookedFunc` function call will be the return value of `callee`.
+call. The callee is executed in an `undefined` context, while the `preCall` 
+function is executed in the context of an object that offers the `abort` function. 
+Calling `abort` will prevent `callee` from being called.  The return value of 
+the `hookedFunc` function call will be the return value of `callee`, unless
+`abort` was called, in which case the returnValue of `hookedFunc` will be the
+1st argument to `abort`.
 
 Example of altering arguments being sent to `callee`:
 
@@ -72,6 +76,24 @@ var rollD10 = pre(roll, function d10 () {
 })
 
 console.log('10-sided die roll result: ' + rollD10())
+```
+
+Example of aborting:
+
+```javascript
+var pre  = require('call-hook/pre')
+
+function roll (sides) {
+    return Math.ceil(Math.random() * sides)
+}
+
+// hijack roll, if a 20 sided die is requested, always return 20
+var roll = pre(roll, function loadedD20 (sides) {
+    if (sides === 20) return this.abort(20)
+})
+
+console.log('10-sided die roll result: ' + roll(10)) // 1 - 10
+console.log('20-sided die roll result: ' + roll(20)) // always 20
 ```
 
 ### hookedFunc = post(callee, postCall)

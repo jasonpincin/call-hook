@@ -60,3 +60,18 @@ test('pre hookedFunc returnValue is callee returnValue', function (t) {
         return 42
     }
 })
+
+test('pre abort prohibits call to callee', function (t) {
+    t.plan(1)
+
+    var returnValue = pre(callee, function () {
+        this.abort('interrupted!')
+    })()
+
+    t.equal(returnValue, 'interrupted!', 'returnValue = interrupted!')
+
+    function callee () {
+        t.fail('callee should not be called')
+        return true
+    }
+})
