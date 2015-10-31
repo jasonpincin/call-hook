@@ -72,3 +72,23 @@ test('pre abort prohibits call to callee', function (t) {
         return true
     }
 })
+
+test('pre abort does not prohibit subsequent calls', function (t) {
+    t.plan(5)
+
+    var showEvens = pre(callee, filterOdd)
+
+    t.equal(showEvens(0), 0)
+    t.equal(showEvens(1), undefined)
+    t.equal(showEvens(2), 2)
+    t.equal(showEvens(3), undefined)
+    t.equal(showEvens(4), 4)
+
+    function filterOdd (number) {
+        if (number % 2 === 1) this.abort()
+    }
+
+    function callee (number) {
+        return number
+    }
+})
