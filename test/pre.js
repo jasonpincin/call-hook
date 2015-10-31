@@ -48,13 +48,10 @@ test('pre should alter callee args if it returns an array', function (t) {
 })
 
 test('pre hookedFunc returnValue is callee returnValue', function (t) {
-    t.plan(1)
+    t.plan(2)
 
-    var returnValue = pre(callee, function () {
-        return 'hi'
-    })()
-
-    t.equal(returnValue, 42, 'returnValue = 42')
+    t.equal(pre(callee, function () { return 'hi' })(), 42, 'returnValue = 42')
+    t.equal(pre(callee, function () {})(), 42, 'returnValue = 42')
 
     function callee () {
         return 42
