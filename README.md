@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/jasonpincin/call-hook.svg?branch=master)](https://travis-ci.org/jasonpincin/call-hook)
 [![Coverage Status](https://coveralls.io/repos/jasonpincin/call-hook/badge.png?branch=master)](https://coveralls.io/r/jasonpincin/call-hook?branch=master)
 
-Hook function calls with other functions. 
+Hook function calls. 
 
 Prehooks execute before the callee (aka target) function executes and may 
 alter the arguments sent to the callee or abort callee execution, while 
@@ -51,16 +51,19 @@ var pre  = require('call-hook/pre'), // or require('call-hook').post
 
 ### hookedFunc = pre(callee, preCall)
 
-Returns a new function, `hookedFunc`, which executes the `preCall` function 
-prior to executing the `callee` function. If `preCall` returns an `Array`, then 
-that array will be applied to `callee` as arguments, otherwise both `preCall` 
-and `callee` functions will receive the arguments of the `hookedFunc` function 
-call. The callee is executed in an `undefined` context, while the `preCall` 
-function is executed in the context of an object that offers the `abort` function. 
-Calling `abort` will prevent `callee` from being called.  The return value of 
-the `hookedFunc` function call will be the return value of `callee`, unless
-`abort` was called, in which case the returnValue of `hookedFunc` will be the
-1st argument to `abort`.
+Returns a new function, `hookedFunc`, which when called executes the `preCall` 
+function prior to executing the `callee` function. Normally, both functions 
+receive the arguments supplied to `hookedFunc`, and the return value of
+`hookedFunc` is the return value of `callee`. This behaviour may be changed (see
+precall context below). The `callee` function is executed in an undefined context,
+while the `preCall` function is executed in the context of an object that offers 
+the following:
+
+*preCall context:*
+* `abort(returnValue)` - prevent the `callee` function from being executed and
+  set the return value of `hookedFunc` to `returnValue`
+* `setArguments(arg1, arg2, ...)` - supply the given arguments to `callee`
+  instead of the arguments supplied to `hookedFunc`
 
 Example of altering arguments being sent to `callee`:
 
@@ -72,7 +75,7 @@ function roll (sides) {
 }
 
 var rollD10 = pre(roll, function d10 () {
-    return [10]
+    this.setArguments(10)
 })
 
 console.log('10-sided die roll result: ' + rollD10())
@@ -99,13 +102,14 @@ console.log('20-sided die roll result: ' + roll(20)) // always 20
 ### hookedFunc = post(callee, postCall)
 
 Returns a new function, `hookedFunc` which executes the `callee` function, followed 
-by the `postCall` function. Both functions receive the same arguments passed to 
+by the `postCall` function. The return value of `hookedFunc` is the return value
+of the `postCall` function. The `postCall` context may be used to return the
+`callee` return value (see below).  Both functions receive the same arguments passed to 
 `hookedFunc`. The `callee` function is executed in an `undefined` context, while 
-the `postCall` is executed in the context of an object that offers `previousReturnValue`, 
-which may be used to access the return value of the `callee` function. The
-return value of `hookedFunc` is the return value of `postCall`. If you do not
-wish to alter the return value of `callee`, then it's important to return
-`this.previousReturnValue` in `postCall`.
+the `postCall` is executed in the context of an object that offers the following:
+
+*postCall context:*
+* `returnValue` - contains the return value of the `callee` function
 
 Example of accessing previous return value:
 
@@ -117,8 +121,8 @@ function roll (sides) {
 }
 
 var printDieRoll = post(roll, function print (sides) {
-    console.log(sides + '-sided die roll result: ' + this.previousReturnValue)
-    return this.previousReturnValue
+    console.log(sides + '-sided die roll result: ' + this.returnValue)
+    return this.returnValue
 })
 
 printDieRoll(6)
