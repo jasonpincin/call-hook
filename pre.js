@@ -1,5 +1,8 @@
 module.exports = function post (callee, preCall) {
-    return function callHook () {
+    callHook.callee = callee
+    return callHook
+
+    function callHook () {
         var aborted,
             rewrittenArgs,
             ctx = { abort: abort, setArguments: setArguments }

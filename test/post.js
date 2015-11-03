@@ -1,6 +1,16 @@
 var test = require('tape'),
     post = require('../post')
 
+test('post should return a function with a callee property', function (t) {
+    t.plan(2)
+
+    var hooked = post(callee, function () {})
+    t.equal(typeof hooked, 'function', 'hooked is a function')
+    t.equal(hooked.callee, callee, 'callee set')
+
+    function callee () {}
+})
+
 test('post should execute postCall after callee', function (t) {
     t.plan(2)
 

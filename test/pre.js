@@ -1,6 +1,16 @@
 var test = require('tape'),
     pre  = require('../pre')
 
+test('pre should return a function with a callee property', function (t) {
+    t.plan(2)
+
+    var hooked = pre(callee, function () {})
+    t.equal(typeof hooked, 'function', 'hooked is a function')
+    t.equal(hooked.callee, callee, 'callee set')
+
+    function callee () {}
+})
+
 test('pre should execute preCall before callee', function (t) {
     t.plan(2)
 
