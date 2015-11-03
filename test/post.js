@@ -34,7 +34,7 @@ test('post should have access to previous return value', function (t) {
     t.plan(1)
 
     post(callee, function () {
-        t.deepEqual(this.previousReturnValue, { val: true }, 'this.previousReturnValue is present')
+        t.deepEqual(this.returnValue, { val: true }, 'this.returnValue is present')
     })()
 
     function callee () {

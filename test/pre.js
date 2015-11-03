@@ -18,11 +18,12 @@ test('pre should execute preCall before callee', function (t) {
     }
 })
 
-test('pre should not alter callee args if non-array is returned', function (t) {
-    t.plan(15)
+test('pre should not alter callee args if setArguments is not called', function (t) {
+    t.plan(18)
 
     var args = ['hello', 'world']
     pre(callee, function () { return 1 }).apply(undefined, args)
+    pre(callee, function () { return [1, 2, 3] }).apply(undefined, args)
     pre(callee, function () { return {} }).apply(undefined, args)
     pre(callee, function () { return true }).apply(undefined, args)
     pre(callee, function () { return false }).apply(undefined, args)
@@ -35,10 +36,10 @@ test('pre should not alter callee args if non-array is returned', function (t) {
     }
 })
 
-test('pre should alter callee args if it returns an array', function (t) {
+test('pre should alter callee args if setArguments is called', function (t) {
     t.plan(3)
 
-    pre(callee, function () { return [42, 'pencil'] })('this', 'is', 1, 'test')
+    pre(callee, function () { this.setArguments(42, 'pencil') })('this', 'is', 1, 'test')
 
     function callee () {
         t.equal(arguments.length, 2, 'arguments.length = 2')
