@@ -4,8 +4,15 @@ node_js:
 - '0.10'
 - '0.12'
 - '4.0'
+- '5.0'
 before_install:
 - npm install -g npm@'>=2.9.1'
 before_script:
 - npm install -g coveralls@2.10.0
-script: npm -s run travis-test
+script:
+- npm run -s travis-test
+- '[ "${TRAVIS_NODE_VERSION}" = "0.12" ] && travis_retry travis_wait npm run -s travis-browser-test || true'
+env:
+  global:
+  - secure: B7b6q3wWndUK9Oc/7g1Hd1wj6sx5UxZ4RdQFXFAj658pLx5oX2rhBfSGh4KPFlGtgOBB4zj+hTX4zKjjevy30wkvpSdteL1PTw6MHXnWnYySq80RZmjdVMbAMmrLBwftHL04p/sfKMLk0nz1Zg1UiiRefCfb8KsQpcNvM5c+wj5eVw6rOr9Tgjfp6qTAFS/R9snPZfqDfabsgNygWEMNInNsq/g/yO6BRqMAQfOmZKKi+dA2WupypkmlzWJC1CBiMVIoLDu9z814ruqjgHv2EdhkF+9VKGpv4e4TCxon4Huj8VykCCewPVNEiaPCFK3gaz/f+RvHoAM8ngMClCFbe+X6oTrR9V3Fj8TXdOdNGHH5XZmRR3RjNrB5+4RO4bIdcBkXwioIHBV+YhGlTz/aKVLdQQPtmk8oBi5b3OgnKDUahjJSI2Zw6LYc5rz+NxPhOmneoDLY/VtLeaH2znWgYMvwom2O2EgTCXWjbk38UW2TMs7gJZ/UotwRGex4DG8UsQECeKRkDIdgiiuH4tFwJRZOq9fQuEb8CYy8Wc9pKrRl4YpkL9fKKlrcToC+tLGzC6jT3CG101gK5TiAUCYhi9ZuFalrwr3lmCirhVSxjjrpPdpNVh9wqcJz1q2kBstpFa7lbKWgdDOD788eAkloOsd812WMzA64zpM2lUoYzoA=
+  - secure: bnTwRk1YInp+Mep4IP3Mr02a8Kph5NlK1jGqLSL4aXlYFZEJNGSiJexepQPXcr4vpRtYRzoUPKbJYZHuXcd9Xw/t52qDpDlzLnNmdBxhDrUqSb0jdteN3J5iUgZ6jFW9+FSq7E0qCdry6QCYGDCL1ZRwSBArkwXmyzrE5Zvwxvqa4aBXAKZL+tzvq8G9WsS+5sxYFlAAHEs/Va5Y6/rtnXVy4cZ4r3jg4yglFoQ8J5PdshoEDXyZwIjf1owAmIzl9xpe8f1GrHQq7cqQVhBDxGgDPSv0XVCTAhYD4gh4UUDSgIcfRADxSiJoVwTpH0i01JAk4EupJiZ5+fTvVaRzt4+Wn4w0Jtm2Ole61pawfNr/Nmd7E9DMYiHdiUZyiY4xzHX8ogMLkez8LBC5r9jEu3tvNYYE10fJEnK+fdc5t33RYQR2QGuEvxiXmZMmS5KGS+9k+MKs4nmBSUMXRG05aT5JgDxAjyc2UG39zi2IQiEPckHrQGHuAzvq+9oDfGteo8OcPG5+X/vrdezKw9B+r+oM2iI5+QM/zmFZxo0djDZSUiuKKZxRg7AxNZoO8Jdn703/5IlafXZpq+EpTkvXorqb07dVeyaps0trtdoDC7dTAn01wtC3WIS3LyCEXluIJtJZPRrOjObIZC/RWSiLeG/kX+c6TBlA1HNqEqbBALE=

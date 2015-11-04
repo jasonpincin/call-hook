@@ -3,6 +3,7 @@
 [![NPM version](https://badge.fury.io/js/call-hook.png)](http://badge.fury.io/js/call-hook)
 [![Build Status](https://travis-ci.org/jasonpincin/call-hook.svg?branch=master)](https://travis-ci.org/jasonpincin/call-hook)
 [![Coverage Status](https://coveralls.io/repos/jasonpincin/call-hook/badge.png?branch=master)](https://coveralls.io/r/jasonpincin/call-hook?branch=master)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/jp-project3.svg)](https://saucelabs.com/u/jp-project3)
 
 Hook function calls. 
 

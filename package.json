@@ -41,6 +41,7 @@
     "test": "npm run -s faucet && npm run -s lint && npm run -s check-cover",
     "test-nocover": "npm run -s faucet-nocover && npm run -s lint",
     "travis-test": "npm run -s tap && ((cat coverage/lcov.info | coveralls) || exit 0)",
+    "travis-browser-test": "zuul -- test/*.js",
     "faucet": "istanbul cover --report lcov --print none -- tape test/*.js | faucet",
     "faucet-nocover": "tape test/**/*.js | faucet",
     "tap": "istanbul cover --report lcov --print none -- tape test/*.js",
