@@ -19,15 +19,15 @@ var pre  = require('call-hook/pre'), // or require('call-hook').post
     post = require('call-hook/post') // or require('call-hook').pre
 
 function hello (name) {
-    console.log('hello ' + name)
+  console.log('hello ' + name)
 }
 
 var quickVisit = post(hello, function goodbye (name) {
-    console.log('goodbye ' + name)
+  console.log('goodbye ' + name)
 })
 
 var shakeGreet = pre(hello, function handshake () {
-    console.log('handshake')
+  console.log('handshake')
 })
 
 hello('Jason') // hello Jason
@@ -56,15 +56,16 @@ Returns a new function, `hookedFunc`, which when called executes the `preCall`
 function prior to executing the `callee` function. Normally, both functions 
 receive the arguments supplied to `hookedFunc`, and the return value of
 `hookedFunc` is the return value of `callee`. This behaviour may be changed (see
-precall context below). The `callee` function is executed in an undefined context,
-while the `preCall` function is executed in the context of an object that offers 
-the following:
+precall context below). The `callee` function is executed in the same context as
+hookedFunc, while the `preCall` function is executed in the context of an object
+that offers the following:
 
 *preCall context:*
 * `abort(returnValue)` - prevent the `callee` function from being executed and
   set the return value of `hookedFunc` to `returnValue`
 * `setArguments(arg1, arg2, ...)` - supply the given arguments to `callee`
   instead of the arguments supplied to `hookedFunc`
+* `context` - the context that `hookedFunc` was executed in
 
 Example of altering arguments being sent to `callee`:
 
@@ -106,11 +107,13 @@ Returns a new function, `hookedFunc` which executes the `callee` function, follo
 by the `postCall` function. The return value of `hookedFunc` is the return value
 of the `postCall` function. The `postCall` context may be used to return the
 `callee` return value (see below).  Both functions receive the same arguments passed to 
-`hookedFunc`. The `callee` function is executed in an `undefined` context, while 
-the `postCall` is executed in the context of an object that offers the following:
+`hookedFunc`. The `callee` function is executed in the same context that 
+`hookedFunc` was, while the `postCall` is executed in the context of an object 
+that offers the following:
 
 *postCall context:*
 * `returnValue` - contains the return value of the `callee` function
+* `context` - the context that `hookedFunc` was executed in
 
 Example of accessing previous return value:
 

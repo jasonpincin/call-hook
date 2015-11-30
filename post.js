@@ -4,7 +4,8 @@ module.exports = function post (callee, postCall) {
 
   function callHook () {
     return postCall.apply({
-      returnValue: callee.apply(undefined, arguments)
+      context    : this,
+      returnValue: callee.apply(this, arguments)
     }, arguments)
   }
 }
