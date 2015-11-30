@@ -4,7 +4,7 @@ var test = require('tape'),
     post = require('../post')
 
 test('index should expose pre and post', function (t) {
-    t.equal(hook.pre, pre, 'hook.pre = pre')
-    t.equal(hook.post, post, 'hook.post = post')
-    t.end()
+  t.equal(hook.pre, pre, 'hook.pre = pre')
+  t.equal(hook.post, post, 'hook.post = post')
+  t.end()
 })
